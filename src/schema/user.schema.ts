@@ -18,7 +18,7 @@ const payload = {
 const params = {
   params: object({
     id: string({
-      required_error: "userId is required",
+      required_error: "id of book is required",
     }).refine((id) =>id && mongoose.isValidObjectId(id), {
       message: "Invalid ID for User",
     }),

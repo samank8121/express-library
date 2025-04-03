@@ -1,0 +1,13 @@
+type: object
+properties:
+  title:
+    type: string
+  author:
+    type: string
+  isbn:
+    type: string
+  publishedDate:
+    type: string
+    format: date
+  availableCopies:
+    type: number

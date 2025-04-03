@@ -10,8 +10,25 @@ tags:
     -
         name: users
         description: 'User management operations'
+    -
+        name: books
+        description: 'Book management operations'
 components:
     schemas:
+        book:
+            type: object
+            properties:
+                title:
+                    type: string
+                author:
+                    type: string
+                isbn:
+                    type: string
+                publishedDate:
+                    type: string
+                    format: date
+                availableCopies:
+                    type: number
         user:
             type: object
             properties:
@@ -22,6 +39,76 @@ components:
                 age:
                     type: integer
 paths:
+    /api/books:
+        post:
+            tags:
+                - books
+            summary: 'Create a new book'
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/book'
+            responses:
+                '201':
+                    description: 'Book created successfully'
+        get:
+            tags:
+                - books
+            summary: 'Get all books'
+            responses:
+                '200':
+                    description: 'A list of books'
+    '/api/books/{id}':
+        get:
+            tags:
+                - books
+            summary: 'Get book by ID'
+            parameters:
+                -
+                    name: id
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+            responses:
+                '200':
+                    description: 'Book details'
+        put:
+            tags:
+                - books
+            summary: 'Update book by ID'
+            parameters:
+                -
+                    name: id
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/book'
+            responses:
+                '200':
+                    description: 'Book updated'
+        delete:
+            tags:
+                - books
+            summary: 'Delete book by ID'
+            parameters:
+                -
+                    name: id
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+            responses:
+                '200':
+                    description: 'Book deleted'
     /api/users:
         post:
             tags:

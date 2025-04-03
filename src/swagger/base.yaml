@@ -8,3 +8,5 @@ servers:
 tags:
   - name: users
     description: User management operations
+  - name: books
+    description: Book management operations
