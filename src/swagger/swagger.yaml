@@ -13,6 +13,9 @@ tags:
     -
         name: books
         description: 'Book management operations'
+    -
+        name: borrows
+        description: 'Borrow management operations'
 components:
     schemas:
         book:
@@ -20,24 +23,83 @@ components:
             properties:
                 title:
                     type: string
+                    description: 'Title of the book'
+                    example: 'The Great Gatsby'
                 author:
                     type: string
+                    description: 'Author of the book'
+                    example: 'F. Scott Fitzgerald'
                 isbn:
                     type: string
+                    description: 'Unique ISBN number of the book'
+                    example: 978-3-16-148410-0
                 publishedDate:
                     type: string
                     format: date
+                    nullable: true
+                    description: 'Date when the book was published'
+                    example: '1925-04-10'
                 availableCopies:
-                    type: number
+                    type: integer
+                    description: 'Number of available copies in the library'
+                    example: 3
+            required:
+                - title
+                - author
+                - isbn
+        borrow:
+            type: object
+            properties:
+                userId:
+                    type: string
+                    format: uuid
+                    description: 'Reference to the user who borrowed the book'
+                    example: 60d21b4667d0d8992e610c86
+                bookId:
+                    type: string
+                    format: uuid
+                    description: 'Reference to the borrowed book'
+                    example: 60d21b4667d0d8992e610c87
+                borrowedAt:
+                    type: string
+                    format: date-time
+                    description: 'Timestamp when the book was borrowed'
+                    example: '2025-04-03T10:15:30Z'
+                dueDate:
+                    type: string
+                    format: date-time
+                    description: 'Date when the book should be returned'
+                    example: '2025-04-17T10:15:30Z'
+                returnedAt:
+                    type: string
+                    format: date-time
+                    nullable: true
+                    description: 'Timestamp when the book was returned'
+                    example: '2025-04-10T14:20:00Z'
+            required:
+                - userId
+                - bookId
+                - dueDate
         user:
             type: object
             properties:
                 name:
                     type: string
+                    description: 'Full name of the user'
+                    example: 'John Doe'
                 email:
                     type: string
+                    format: email
+                    description: 'Unique email address of the user'
+                    example: johndoe@example.com
                 age:
                     type: integer
+                    description: 'Age of the user'
+                    example: 30
+            required:
+                - name
+                - email
+                - age
 paths:
     /api/books:
         post:
@@ -109,6 +171,101 @@ paths:
             responses:
                 '200':
                     description: 'Book deleted'
+    /api/borrows:
+        post:
+            tags:
+                - borrows
+            summary: 'Create a new borrow'
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/borrow'
+            responses:
+                '201':
+                    description: 'Borrow created successfully'
+        get:
+            tags:
+                - borrows
+            summary: 'Get borrows with optional filters'
+            parameters:
+                -
+                    in: query
+                    name: bookId
+                    schema:
+                        type: string
+                        format: ObjectId
+                    description: 'Filter borrows by Book ID (must be a valid MongoDB ObjectId)'
+                -
+                    in: query
+                    name: userId
+                    schema:
+                        type: string
+                        format: ObjectId
+                    description: 'Filter borrows by User ID (must be a valid MongoDB ObjectId)'
+            responses:
+                '200':
+                    description: 'A list of borrows, filtered if query parameters are provided'
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/borrow'
+                '400':
+                    description: 'Invalid query parameters'
+                '500':
+                    description: 'Server error'
+    '/api/borrows/{id}':
+        get:
+            tags:
+                - borrows
+            summary: 'Get borrow by ID'
+            parameters:
+                -
+                    name: id
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+            responses:
+                '200':
+                    description: 'Borrow details'
+        put:
+            tags:
+                - borrows
+            summary: 'Update borrow by ID'
+            parameters:
+                -
+                    name: id
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/borrow'
+            responses:
+                '200':
+                    description: 'Borrow updated'
+        delete:
+            tags:
+                - borrows
+            summary: 'Delete borrow by ID'
+            parameters:
+                -
+                    name: id
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+            responses:
+                '200':
+                    description: 'Borrow deleted'
     /api/users:
         post:
             tags:

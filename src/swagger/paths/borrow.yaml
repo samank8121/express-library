@@ -1,0 +1,94 @@
+/api/borrows:
+  post:
+    tags:
+      - borrows
+    summary: Create a new borrow
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/borrow"
+    responses:
+      "201":
+        description: Borrow created successfully
+
+  get:
+    tags:
+      - borrows
+    summary: Get borrows with optional filters
+    parameters:
+      - in: query
+        name: bookId
+        schema:
+          type: string
+          format: ObjectId
+        description: Filter borrows by Book ID (must be a valid MongoDB ObjectId)
+      - in: query
+        name: userId
+        schema:
+          type: string
+          format: ObjectId
+        description: Filter borrows by User ID (must be a valid MongoDB ObjectId)
+    responses:
+      "200":
+        description: A list of borrows, filtered if query parameters are provided
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/borrow"
+      "400":
+        description: Invalid query parameters
+      "500":
+        description: Server error
+
+/api/borrows/{id}:
+  get:
+    tags:
+      - borrows
+    summary: Get borrow by ID
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      "200":
+        description: Borrow details
+
+  put:
+    tags:
+      - borrows
+    summary: Update borrow by ID
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/borrow"
+    responses:
+      "200":
+        description: Borrow updated
+
+  delete:
+    tags:
+      - borrows
+    summary: Delete borrow by ID
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      "200":
+        description: Borrow deleted

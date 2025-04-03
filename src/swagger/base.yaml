@@ -10,3 +10,5 @@ tags:
     description: User management operations
   - name: books
     description: Book management operations
+  - name: borrows
+    description: Borrow management operations
