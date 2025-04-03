@@ -1,0 +1,10 @@
+openapi: 3.0.0
+info:
+  title: Library API
+  description: Library API using Express, MongoDB, and Swagger
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000
+tags:
+  - name: users
+    description: User management operations
