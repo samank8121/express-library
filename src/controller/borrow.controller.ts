@@ -8,6 +8,7 @@ import {
   GetParamBorrowInput,
   UpdateBorrowInput,
 } from '../schema/borrow.schema';
+import { handleError } from '../utils/error-handler';
 
 export const getBorrowByFilters: RequestHandler<
   unknown,
@@ -40,7 +41,7 @@ export const createBorrow: RequestHandler<
     const borrow: IUserBook = await UserBook.create(req.body);
     res.status(201).json(borrow);
   } catch (error) {
-    next(error);
+    handleError(error, res, next);
   }
 };
 export const getBorrowById: RequestHandler<
@@ -72,7 +73,7 @@ export const updateBorrow: RequestHandler<
     }
     res.json(borrow);
   } catch (error) {
-    next(error);
+    handleError(error, res, next);
   }
 };
 
@@ -82,9 +83,12 @@ export const deleteBorrow: RequestHandler<DeleteBorrowInput['params']> = async (
   next
 ) => {
   try {
-    await UserBook.findByIdAndDelete(req.params.id);
+    const borrow = await UserBook.findByIdAndDelete(req.params.id);
+    if (!borrow) {
+      throw createHttpError(404, 'No borrow found');
+    }
     res.json({ message: 'Borrow deleted successfully' });
   } catch (error) {
-    next(error);
+    handleError(error, res, next);
   }
 };

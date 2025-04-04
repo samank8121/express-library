@@ -7,6 +7,7 @@ import {
   GetBookInput,
   UpdateBookInput,
 } from '../schema/book.schema';
+import { handleError } from '../utils/error-handler';
 
 export const getBooks: RequestHandler = async (req, res, next) => {
   try {
@@ -21,7 +22,7 @@ export const getBookById: RequestHandler<GetBookInput['params']> = async (
   res,
   next
 ) => {
-  try {   
+  try {
     const book: IBook | null = await Book.findById(req.params.id);
     if (!book) {
       throw createHttpError(404, 'Book not found');
@@ -40,7 +41,7 @@ export const createBook: RequestHandler<
     const book: IBook = await Book.create(req.body);
     res.status(201).json(book);
   } catch (error) {
-    next(error);
+    handleError(error, res, next);
   }
 };
 
@@ -55,13 +56,12 @@ export const updateBook: RequestHandler<
       req.body,
       { new: true }
     );
-    if(!book)
-    {
+    if (!book) {
       throw createHttpError(404, 'Book not found');
     }
     res.json(book);
   } catch (error) {
-    next(error);
+    handleError(error, res, next);
   }
 };
 
@@ -71,9 +71,12 @@ export const deleteBook: RequestHandler<DeleteBookInput['params']> = async (
   next
 ) => {
   try {
-    await Book.findByIdAndDelete(req.params.id);
+    const book = await Book.findByIdAndDelete(req.params.id);
+    if (!book) {
+      throw createHttpError(404, 'Book not found');
+    }
     res.json({ message: 'Book deleted successfully' });
   } catch (error) {
-    next(error);
+    handleError(error, res, next);
   }
 };

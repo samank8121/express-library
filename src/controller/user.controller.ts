@@ -7,6 +7,7 @@ import {
   GetUserInput,
   UpdateUserInput,
 } from '../schema/user.schema';
+import { handleError } from '../utils/error-handler';
 
 export const getUsers: RequestHandler = async (req, res, next) => {
   try {
@@ -21,7 +22,7 @@ export const getUserById: RequestHandler<GetUserInput['params']> = async (
   res,
   next
 ) => {
-  try {   
+  try {
     const user: IUser | null = await User.findById(req.params.id);
     if (!user) {
       throw createHttpError(404, 'User not found');
@@ -39,8 +40,8 @@ export const createUser: RequestHandler<
   try {
     const user: IUser = await User.create(req.body);
     res.status(201).json(user);
-  } catch (error) {
-    next(error);
+  } catch (error: unknown) {
+    handleError(error, res, next);
   }
 };
 
@@ -55,13 +56,12 @@ export const updateUser: RequestHandler<
       req.body,
       { new: true }
     );
-    if(!user)
-    {
+    if (!user) {
       throw createHttpError(404, 'User not found');
     }
     res.json(user);
   } catch (error) {
-    next(error);
+    handleError(error, res, next);
   }
 };
 
@@ -71,9 +71,12 @@ export const deleteUser: RequestHandler<DeleteUserInput['params']> = async (
   next
 ) => {
   try {
-    await User.findByIdAndDelete(req.params.id);
+    const user = await User.findByIdAndDelete(req.params.id);
+    if (!user) {
+      throw createHttpError(404, 'User not found');
+    }
     res.json({ message: 'User deleted successfully' });
   } catch (error) {
-    next(error);
+    handleError(error, res, next);
   }
 };
