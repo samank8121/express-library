@@ -27,7 +27,7 @@ function swaggerDocs(app: Express) {
     });
   } else {
     console.error('Swagger documentation file not found!');
-  } 
+  }
 }
 
 export default swaggerDocs;

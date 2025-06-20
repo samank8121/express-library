@@ -13,18 +13,18 @@ const payload = {
       required_error: 'Age is required',
     }),
   }),
-}
+};
 
 const params = {
   params: object({
     id: string({
-      required_error: "id of book is required",
-    }).refine((id) =>id && mongoose.isValidObjectId(id), {
-      message: "Invalid ID for User",
+      required_error: 'id of book is required',
+    }).refine((id) => id && mongoose.isValidObjectId(id), {
+      message: 'Invalid ID for User',
     }),
   }),
 };
-export const createUserSchema = object({...payload});
+export const createUserSchema = object({ ...payload });
 export const updateUserSchema = object({
   ...payload,
   ...params,

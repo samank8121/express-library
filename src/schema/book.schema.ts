@@ -10,20 +10,20 @@ const payload = {
       (val) => (typeof val === 'string' ? new Date(val) : val),
       date().optional()
     ),
-    availableCopies: number().int().min(0).default(1),    
+    availableCopies: number().int().min(0).default(1),
   }),
 };
 
 const params = {
   params: object({
     id: string({
-      required_error: "id of book is required",
-    }).refine((id) =>id && mongoose.isValidObjectId(id), {
-      message: "Invalid ID for Book",
+      required_error: 'id of book is required',
+    }).refine((id) => id && mongoose.isValidObjectId(id), {
+      message: 'Invalid ID for Book',
     }),
   }),
 };
-export const createBookSchema = object({...payload});
+export const createBookSchema = object({ ...payload });
 export const updateBookSchema = object({
   ...payload,
   ...params,

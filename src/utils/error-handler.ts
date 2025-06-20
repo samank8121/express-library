@@ -9,7 +9,7 @@ interface ErrorHandlerStrategy {
 class DuplicateKeyErrorHandler implements ErrorHandlerStrategy {
   canHandle(error: unknown): boolean {
     return (
-      typeof error === 'object' && 
+      typeof error === 'object' &&
       error !== null &&
       'code' in error &&
       error.code === 11000 &&
@@ -25,13 +25,13 @@ class DuplicateKeyErrorHandler implements ErrorHandlerStrategy {
       keyPattern: Record<string, number>;
       keyValue: Record<string, string>;
     };
-    
+
     const field = Object.keys(mongoError.keyPattern)[0];
     const value = mongoError.keyValue[field];
-    
+
     res.status(409).json({
       status: 'fail',
-      message: `${field} '${value}' already exists. Please use another ${field}.`
+      message: `${field} '${value}' already exists. Please use another ${field}.`,
     });
   }
 }
@@ -51,7 +51,7 @@ class ValidationErrorHandler implements ErrorHandlerStrategy {
 
   handle(error: unknown, res: Response): void {
     const validationError = error as { message: string };
-    
+
     res.status(400).json({
       status: 'fail',
       message: validationError.message,
