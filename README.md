@@ -1,6 +1,6 @@
 ## Description
 
-This is a library project built with Express.js, MongoDB, TypeScript, Zod, and Swagger.
+This is a library project built with Express.js, MongoDB, TypeScript, Zod, Swagger, husky and github actions.
 The project follows the separation of concerns principle, with Swagger documentation organized using YAML files for each endpoint and schema.
 Zod is used for route validation and envalid for environment variable validation.
 
