@@ -4,28 +4,28 @@ properties:
     type: string
     format: uuid
     description: Reference to the user who borrowed the book
-    example: "60d21b4667d0d8992e610c86"
+    example: '60d21b4667d0d8992e610c86'
   bookId:
     type: string
     format: uuid
     description: Reference to the borrowed book
-    example: "60d21b4667d0d8992e610c87"
+    example: '60d21b4667d0d8992e610c87'
   borrowedAt:
     type: string
     format: date-time
     description: Timestamp when the book was borrowed
-    example: "2025-04-03T10:15:30Z"
+    example: '2025-04-03T10:15:30Z'
   dueDate:
     type: string
     format: date-time
     description: Date when the book should be returned
-    example: "2025-04-17T10:15:30Z"
+    example: '2025-04-17T10:15:30Z'
   returnedAt:
     type: string
     format: date-time
     nullable: true
     description: Timestamp when the book was returned
-    example: "2025-04-10T14:20:00Z"    
+    example: '2025-04-10T14:20:00Z'
 required:
   - userId
   - bookId

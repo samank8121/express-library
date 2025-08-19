@@ -8,9 +8,9 @@
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/user"
+            $ref: '#/components/schemas/user'
     responses:
-      "201":
+      '201':
         description: User created successfully
 
   get:
@@ -18,7 +18,7 @@
       - users
     summary: Get all users
     responses:
-      "200":
+      '200':
         description: A list of users
 
 /api/users/{id}:
@@ -33,7 +33,7 @@
         schema:
           type: string
     responses:
-      "200":
+      '200':
         description: User details
 
   put:
@@ -51,9 +51,9 @@
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/user"
+            $ref: '#/components/schemas/user'
     responses:
-      "200":
+      '200':
         description: User updated
 
   delete:
@@ -67,5 +67,5 @@
         schema:
           type: string
     responses:
-      "200":
+      '200':
         description: User deleted

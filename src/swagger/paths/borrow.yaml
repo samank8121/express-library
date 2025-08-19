@@ -8,9 +8,9 @@
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/borrow"
+            $ref: '#/components/schemas/borrow'
     responses:
-      "201":
+      '201':
         description: Borrow created successfully
 
   get:
@@ -31,17 +31,17 @@
           format: ObjectId
         description: Filter borrows by User ID (must be a valid MongoDB ObjectId)
     responses:
-      "200":
+      '200':
         description: A list of borrows, filtered if query parameters are provided
         content:
           application/json:
             schema:
               type: array
               items:
-                $ref: "#/components/schemas/borrow"
-      "400":
+                $ref: '#/components/schemas/borrow'
+      '400':
         description: Invalid query parameters
-      "500":
+      '500':
         description: Server error
 
 /api/borrows/{id}:
@@ -56,7 +56,7 @@
         schema:
           type: string
     responses:
-      "200":
+      '200':
         description: Borrow details
 
   put:
@@ -74,9 +74,9 @@
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/borrow"
+            $ref: '#/components/schemas/borrow'
     responses:
-      "200":
+      '200':
         description: Borrow updated
 
   delete:
@@ -90,5 +90,5 @@
         schema:
           type: string
     responses:
-      "200":
+      '200':
         description: Borrow deleted

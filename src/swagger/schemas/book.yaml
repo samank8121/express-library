@@ -3,25 +3,25 @@ properties:
   title:
     type: string
     description: Title of the book
-    example: "The Great Gatsby"
+    example: 'The Great Gatsby'
   author:
     type: string
     description: Author of the book
-    example: "F. Scott Fitzgerald"
+    example: 'F. Scott Fitzgerald'
   isbn:
     type: string
     description: Unique ISBN number of the book
-    example: "978-3-16-148410-0"
+    example: '978-3-16-148410-0'
   publishedDate:
     type: string
     format: date
     nullable: true
     description: Date when the book was published
-    example: "1925-04-10"
+    example: '1925-04-10'
   availableCopies:
     type: integer
     description: Number of available copies in the library
-    example: 3  
+    example: 3
 required:
   - title
   - author
